@@ -5,5 +5,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-    echo "Hello world";
+    $name = "Jim";
+    $what = "geek";
+    $level = 10;
+    echo "My level is ".$name.", and I am a level ".$level." ".$what;
+    echo $temp;
+    echo "<br>";
+    $input = $_GET["hours"];
+    echo "You've worked ".$input;
 ?>
