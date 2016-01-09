@@ -11,15 +11,10 @@
             var $position;
 
             //Constructor for Game class. takes a map of squares as a parameter
-            function __construct($squares) {        
-                $this->position = str_split($squares);                   
-                
-                for ($row = 0; $row < 3; $row++) {
-                    for ($col = 0; $col < 3; $col++) {
-                        echo $this->position[3 * $row + $col];
-                    }
-                    echo "<br>";
-                }
+            function __construct($squares) {
+                $this->position = str_split($squares);
+
+                $this->display();
             }
 
             //Function to determine if the passed token is the current winner
@@ -60,6 +55,32 @@
                 return $won;
             }
 
+            //Function for printing the board to the user
+            function display() {
+                echo "<table cols=\"3\" style=\"font-size:large; font-weight:bold\">";
+                echo "<tr>"; //open first row
+                for ($pos = 0; $pos < 9; $pos++) {
+                    echo $this->show_cell($pos);
+                    if ($pos % 3 == 2)
+                        echo "</tr><tr>"; //start a new row for the next square
+                }
+                echo "</tr>"; //close the last row
+                echo "</table>";
+            }
+            
+            //function to return a given cell from the board
+            function show_cell($which){
+                $token = $this->position[$which];
+                
+                if($token<>'-') return "<td>".$token."</td>";
+                
+                $this->newposition = $this->position;
+                $this->newposition[$which] = 'o';
+                $move = implode($this->newposition);
+                $link = "/COMP4711-lab1/?board=".$move;
+                return "<td><a href=".$link.">-</a></td>";
+            }            
+            
         }
 
         if (!isset($_GET['board'])) {
@@ -71,7 +92,7 @@
             if ($game->winner('x')) {
                 echo "x wins!";
             } else if ($game->winner('o')) {
-                echo "y wins!";
+                echo "o wins!";
             } else {
                 echo "No winner.";
             }
