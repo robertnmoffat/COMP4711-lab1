@@ -13,6 +13,8 @@
             //Constructor for Game class. takes a map of squares as a parameter
             function __construct($squares) {
                 $this->position = str_split($squares);
+                
+                $this->computer_move();
 
                 $this->display();
             }
@@ -79,15 +81,28 @@
                 $move = implode($this->newposition);
                 $link = "/COMP4711-lab1/?board=".$move;
                 return "<td><a href=".$link.">-</a></td>";
-            }            
+            } 
+            
+            //Function to make a move for the computer player
+            function computer_move(){
+                for ($pos = 0; $pos < 9; $pos++) {
+                    if($this->position[$pos]=='-'){
+                        $this->position[$pos]='x';
+                        return;
+                    }
+                }
+            }
             
         }
 
+        //Check if there is a board stored in the url, if not, use a fresh board
         if (!isset($_GET['board'])) {
-            echo "No board parameter passed.";
+            $board = "---------";
         } else {
-            $board = $_GET['board'];
-            $game = new Game($board);
+            $board = $_GET['board'];            
+        }
+        
+        $game = new Game($board);
 
             if ($game->winner('x')) {
                 echo "x wins!";
@@ -96,7 +111,6 @@
             } else {
                 echo "No winner.";
             }
-        }
         ?>
     </body>
 </html>
